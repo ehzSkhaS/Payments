@@ -103,20 +103,6 @@ non_status = {  'Nombre del Trabajador': non_worker_name_column,
                 'Mes': non_month_number_column,
                 'Trabajado': non_worked}
 
-# global non valid models paths
-non_valid_paths_column = []
-non_valid_worker_name_column = []
-non_valid_id_value_column = []
-non_valid_human_value_column = []
-non_valid_year_number_column = []
-non_valid_month_number_column = []
-non_valid = {   'Documentos Incompletos': non_valid_paths_column,
-                'Nombre del Trabajador': non_valid_worker_name_column,
-                'C.I': non_valid_id_value_column,
-                'R.H': non_valid_human_value_column,
-                'Año': non_valid_year_number_column,
-                'Mes': non_valid_month_number_column}
-
 # list all .xlsx file with the model
 def traverse_dir():
     for root, dirs, files in os.walk(os.path.dirname(__file__)):                
@@ -126,8 +112,7 @@ def traverse_dir():
                     try:                        
                         f_path = os.path.join(os.path.realpath(root),f)
                         df = pd.read_excel(f_path, sheet_name='Trabajo')
-                        df_tuple = (df, f_path)
-                        record_dict.get(os.path.basename(root)).append(df_tuple)
+                        record_dict.get(os.path.basename(root)).append(df)
                     except (FileNotFoundError, ValueError, xlrd.biffh.XLRDError):
                         pass
 
@@ -179,36 +164,36 @@ def worker_status(df):
                   'noviembre': 11,
                   'diciembre':12}
     month_number = month_dict.get(str(month_name).lower())       
-
-    if worker_name == 0:
+    
+    if worker_name == np.nan:
         worker_name = "Error"
         vdata = False
 
-    if id_value == 0:
+    if id_value == np.nan:
         id_value = "Error"
         vdata = False
 
     if position_name == np.nan:
         position_name = "Sin cargo"
     
-    if evaluation_value == 0:
+    if evaluation_value == np.nan:
         evaluation_value = "Sin evaluación"
 
-    if salary_scale_number == 0:
+    if salary_scale_number == np.nan:
         salary_scale_number = "Sin escala"
     
-    if area_name == 0:
+    if area_name == np.nan:
         area_name = "Sin Área"
 
-    if human_value == 0:
+    if human_value == np.nan:
         human_value = "Error"
         vdata = False
 
-    if year_number == 0:
+    if year_number == np.nan:
         year_number = "Error"
         vdata = False
 
-    if month_number == None:
+    if month_number == np.nan:
         month_number = "Error"
         vdata = False
 
@@ -232,12 +217,6 @@ def worker_status(df):
         non_human_value_column.append(human_value)
         non_year_number_column.append(year_number)
         non_month_number_column.append(month_number)
-        
-        non_valid_worker_name_column.append(worker_name)
-        non_valid_id_value_column.append(id_value)        
-        non_valid_human_value_column.append(human_value)
-        non_valid_year_number_column.append(year_number)
-        non_valid_month_number_column.append(month_number)
     return vdata
 
 # change all NaN for 0
@@ -1232,22 +1211,20 @@ def jobs_done(df):
 
 # status dict contains info about a worker
 # jobs dict contains info about the work done by the same worker
-def asociate_status_with_jobs():
+def asociate_status_wit_jobs():
     try:
         for lvalue in record_dict.values():
-            for df_tuple in lvalue:
-                tmp_jobs = jobs_done(df_tuple[0])
+            for df in lvalue:
+                tmp_jobs = jobs_done(df)
                 salary = 0
                 for tmp_salary in tmp_jobs.get("Importe por Programa"):
                     salary += tmp_salary
-                if worker_status(df_tuple[0]):                                
+                if worker_status(df):                                
                     worked.append(tmp_jobs)                    
                     salary_number_colunmn.append(salary)
                 else:                
                     non_worked.append(tmp_jobs)
                     non_salary_number_colunmn.append(salary)
-                    # ERROR MODEL PATH
-                    non_valid_paths_column.append(df_tuple[1])
     except AttributeError:
         pass
 
@@ -1331,10 +1308,8 @@ def job_done_per_worker_date(year, month):
 
 
 #traverse_dir()
-#asociate_status_with_jobs()
-
+#asociate_status_wit_jobs()
 #print(status)
-#print(record_dict)
 #print(non_status)
 #print(total_salary_per_worker_date(2021,1))
 #print(job_done_per_worker_date(2021,1))

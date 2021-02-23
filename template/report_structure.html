@@ -1,0 +1,33 @@
+<!DOCTYPE html>
+<html>
+<head lang="en">
+    <meta charset="UTF-8">
+    <title>{{ title }} </title>
+</head>
+<body>
+<div class="container">
+    <h1 style="text-align:center">{{ year }}/{{ month }}</h1>
+</div>
+<hr>
+<div class="container">
+    <h2 style="text-align:right">Salario Mensual</h2>
+     {{ total_salary }}
+</div>
+<hr>
+<div class="container">
+    <h2 style="text-align:right">Salario por Emisora</h2>
+    {{ worker_status }}
+</div>
+<hr>
+<div class="container">    
+    {% for item in jobs_done %}
+        <div>            
+            {% set s = loop.index - 1 %}
+            <h4 style="text-align:right">{{worker[s]}}</h4>
+            {{ item }}
+        </div>
+        <hr>
+    {% endfor %}
+</div>
+</body>
+</html>
