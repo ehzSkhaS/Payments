@@ -335,7 +335,7 @@ def jobs_done(df):
                             df.iloc[:,3][17],
                             df.iloc[:,3][18]]
     # Worked Days
-    word_days = df.iloc[:,4][6]
+    #word_days = df.iloc[:,4][6]
     # Day 1
     word_day1 = df.iloc[:,4][8]
     # Emisions

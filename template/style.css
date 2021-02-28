@@ -4,6 +4,11 @@
    * Sets up some sensible default typography.
    http://www.blueprintcss.org/blueprint/src/typography.css
 -------------------------------------------------------------- */
+@page{
+  size: Letter;
+  margin: 0.5cm;
+}
+
 
 /* Default font settings.
    The font-size percentage is of 16px. (0.75 * 16px = 12px) */
