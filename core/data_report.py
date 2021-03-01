@@ -1,12 +1,16 @@
+import warnings
+warnings.filterwarnings("ignore")
+
+import sys
+sys.path.append('../')
+
+import core.data_graphs as graph
+
 import pandas as pd
 import matplotlib.pyplot as plt
 from matplotlib.backends.backend_pdf import PdfPages
 from weasyprint import HTML
 from jinja2 import Environment, FileSystemLoader
-
-import core.data_graphs as graph
-import sys
-sys.path.append('../')
 
 pd.options.display.float_format = '{:,.2f}'.format
 

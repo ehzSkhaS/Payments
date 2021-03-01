@@ -1,0 +1,14 @@
+[Unit]
+Description=Voila
+
+[Service]
+Type=simple
+PIDFile=/run/voila.pid
+ExecStart=/opt/anaconda3/bin/voila --no-browser data_filter.ipynb
+User=root
+WorkingDirectory=/etc/jupyterhub/hub/
+Restart=always
+RestartSec=10
+
+[Install]
+WantedBy=multi-user.target

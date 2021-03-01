@@ -1,0 +1,11 @@
+Voila
+    copy: voila.service to: /usr/lib/systemd/system
+    > sudo systemctl enable voila.service
+    > sudo systemctl start voila.service
+    > sudo systemctl daemon-reload
+    
+Nginx
+    copy: voilaserver to: /etc/nginx/sites-enabled
+    > sudo systemctl enable nginx.service
+    > sudo systemctl start nginx.service
+    > sudo systemctl daemon-reload
